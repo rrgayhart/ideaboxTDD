@@ -1,22 +1,41 @@
+require_relative 'idea'
+
 class IdeaStore
 
   def self.delete_all
     @all = []
   end
+
+  def self.all
+    @all ||= []
+  end
+
+  def self.delete(id)
+    self.find(id)
+    self.all.reject!{|total| total.id == id}
+  end
   
   def self.save(idea)
-    @all ||= []
-    id = next_id
-    @all[id] = idea
-    id
+    if idea.id
+      self.update(idea)
+    else
+      idea.id = next_id
+      self.all << idea
+      idea.id
+    end
+  end
+
+  def self.update(idea)
+    self.all.reject!{|total| total.id == idea.id}
+    self.all << idea
   end
 
   def self.find(id)
-    @all[id]
+    all[id]
   end
 
   def self.next_id
-    @all.size
+    self.all.size ||= 0
   end
 
   def self.count

@@ -4,6 +4,11 @@ require 'minitest/pride'
 require './lib/ideabox/idea'
 
 class IdeaTest < Minitest::Test
+  
+  def teardown
+    IdeaStore.delete_all
+  end
+
   def test_basic_idea
     idea = Idea.new("title", "description")
     assert_equal "title", idea.title

@@ -1,11 +1,15 @@
+require_relative 'idea_store'
+
 class Idea
   include Comparable
-  attr_reader :title, :description, :rank
+  attr_accessor :title, :description, :rank, :id
 
-  def initialize(title, description)
-    @title = title
-    @description = description
+  def initialize(*attributes)
+    attributes = attributes
+    @title = attributes.slice!(0)
+    @description = attributes.slice!(0)
     @rank = 0
+    @id ||= nil
   end
 
   def like!
